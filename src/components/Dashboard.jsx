@@ -6,6 +6,7 @@ const Dashboard = () => {
   const [user, setUser] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [count, setCount] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
@@ -20,6 +21,7 @@ const Dashboard = () => {
     setUser(response.data.result);
     setTotalPage(response.data.totalPage);
     setLimit(response.data.limit);
+    setCount(response.data.count);
   };
 
   const handlePageClick = ({ selected }) => {
@@ -28,6 +30,7 @@ const Dashboard = () => {
 
   const searchData = (e) => {
     e.preventDefault();
+    setPage(0);
     setSearch(query);
   };
 
@@ -85,25 +88,32 @@ const Dashboard = () => {
               ))}
             </tbody>
           </table>
-          <ReactPaginate
-            previousLabel={"<<"}
-            nextLabel={">>"}
-            breakLabel={"..."}
-            pageCount={totalPage}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
-            onPageChange={handlePageClick}
-            containerClassName={"pagination justify-content-end"}
-            pageClassName={"page-item"}
-            pageLinkClassName={"page-link"}
-            previousClassName={"page-item"}
-            previousLinkClassName={"page-link"}
-            nextClassName={"page-item"}
-            nextLinkClassName={"page-link"}
-            breakClassName={"page-item"}
-            breakLinkClassName={"page-link"}
-            activeClassName={"active"}
-          />
+          <p className="text-end">
+            Total row: <strong>{count}</strong> page{" "}
+            <strong>{count ? page + 1 : 0}</strong> of{" "}
+            <strong>{totalPage}</strong>
+          </p>
+          <nav key={count}>
+            <ReactPaginate
+              previousLabel={"<<"}
+              nextLabel={">>"}
+              breakLabel={"..."}
+              pageCount={totalPage}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination justify-content-end"}
+              pageClassName={"page-item"}
+              pageLinkClassName={"page-link"}
+              previousClassName={"page-item"}
+              previousLinkClassName={"page-link"}
+              nextClassName={"page-item"}
+              nextLinkClassName={"page-link"}
+              breakClassName={"page-item"}
+              breakLinkClassName={"page-link"}
+              activeClassName={"active"}
+            />
+          </nav>
         </div>
       </div>
     </div>
